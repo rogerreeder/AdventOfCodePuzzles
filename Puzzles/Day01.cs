@@ -34,7 +34,7 @@ namespace AdventOfCodePuzzles
                         sum += int.Parse(line);
                 }
             }
-            return $"First Puzzle: larget calories is {largestSum}";
+            return $"First Puzzle: largest calories is {largestSum}";
         }
 
         public static string Top3GroupOfCalories()
