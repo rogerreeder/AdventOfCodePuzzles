@@ -9,7 +9,7 @@ namespace AdventOfCodePuzzles
 {
     static public class Day01
     {
-        public static string MaxCalories()
+        public static string Part1()
         {
             var elf = 1;
             var largestSum = 0;
@@ -37,7 +37,7 @@ namespace AdventOfCodePuzzles
             return $"First Puzzle: largest calories is {largestSum}";
         }
 
-        public static string Top3GroupOfCalories()
+        public static string Part2()
         {
             var lines = File.ReadLines("Assets/Day01.txt").ToList();
             var list = new List<int>();
