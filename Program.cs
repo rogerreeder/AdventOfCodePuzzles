@@ -19,7 +19,8 @@ while (notExit)
             Console.WriteLine(Day01.Top3GroupOfCalories());
             break;
         case '2':
-            Console.WriteLine($"Working it.");
+            Console.WriteLine(Day02.Part1());
+            Console.WriteLine(Day02.Part2());
             break;
         default:
             notExit = false;
