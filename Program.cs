@@ -9,24 +9,33 @@ while (notExit)
 {
     var selected = Console.ReadKey();
     Console.WriteLine("");
-    switch (selected.KeyChar)
+    try
     {
-        case '?':
-            showMenu();
-            break;
-        case '1':
-            Console.WriteLine(Day01.Part1());
-            Console.WriteLine(Day01.Part2());
-            break;
-        case '2':
-            Console.WriteLine(Day02.Part1());
-            Console.WriteLine(Day02.Part2());
-            break;
-        default:
-            notExit = false;
-            break;
+        switch (selected.KeyChar)
+        {
+            case '?':
+                showMenu();
+                break;
+            case '1':
+                Console.WriteLine(Day01.Part1());
+                Console.WriteLine(Day01.Part2());
+                break;
+            case '2':
+                Console.WriteLine(Day02.Part1());
+                Console.WriteLine(Day02.Part2());
+                break;
+            default:
+                notExit = false;
+                break;
+        }
     }
-    Console.WriteLine("Tap Key to run, ? for menu or X to exit");
+    catch (System.Exception ex)
+    {
+        Console.WriteLine($"[ERROR] {ex.Message}");
+    }
+    finally{
+        Console.WriteLine("Tap Key to run, ? for menu or X to exit");
+    }
 }
 
 
