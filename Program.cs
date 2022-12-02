@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using AdventOfCodePuzzles;
 
-const int CURRENTDAY = 3;
+const int CURRENTDAY = 4;
 var notExit = true;
 showMenu();
 Console.WriteLine("Tap Key to run, ? for menu or X to exit");
@@ -23,6 +23,10 @@ while (notExit)
             case '2':
                 Console.WriteLine(Day02.Part1());
                 Console.WriteLine(Day02.Part2());
+                break;
+            case '3':
+                Console.WriteLine(Day03.Part1());
+                Console.WriteLine(Day03.Part2());
                 break;
             default:
                 notExit = false;
