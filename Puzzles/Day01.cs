@@ -60,7 +60,7 @@ namespace AdventOfCodePuzzles
                             totals[2] = totals[1];
                             totals[1] = sum;
                         }
-                        else if (totals[2] < sum) 
+                        else if (totals[2] < sum)
                         {
                             totals[2] = sum;
                         }
