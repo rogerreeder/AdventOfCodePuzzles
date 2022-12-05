@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using AdventOfCodePuzzles;
 
-const int CURRENTDAY = 6;
+const int NEXTDAY = 6;
 var notExit = true;
 showMenu();
 Console.WriteLine("Tap Key to run, ? for menu or X to exit");
@@ -36,6 +36,10 @@ while (notExit)
                 Console.WriteLine(Day05.Part1());
                 Console.WriteLine(Day05.Part2());
                 break;
+            case '6':
+                Console.WriteLine(Day06.Part1());
+                Console.WriteLine(Day06.Part2());
+                break;
             default:
                 notExit = false;
                 break;
@@ -54,7 +58,7 @@ while (notExit)
 void showMenu()
 {
     Console.WriteLine("************ MENU **********");
-    for (var key = 1; key < CURRENTDAY; key++)
+    for (var key = 1; key <= NEXTDAY; key++)
     {
         Console.WriteLine($"{(char)(48 + (key < 10 ? key : key + 7))} - Advent of Code 2022 ({key})");
     }
