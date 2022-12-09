@@ -36,7 +36,7 @@ namespace AdventOfCodePuzzles
             }
             foreach(var dirItem in Directories)
                 Directories[dirItem.Key] = FileInfos.Where(f => f.Value.Directory.Contains(dirItem.Key)).Sum(f => f.Value.FileSize);
-            return $"Part1: {Directories.Where(d => d.Value <= 100000).Sum(d => d.Value)}";
+            return $"Part1:\n\tSum: {Directories.Where(d => d.Value <= 100000).Sum(d => d.Value)}";
         }
 
         public static string Part2()

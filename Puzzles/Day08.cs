@@ -15,7 +15,7 @@ namespace AdventOfCodePuzzles
     {
         const string FILENAME = "Assets/Day08.txt";
         private static List<string>? lines;
-        private static int[,] TreeGrid;
+        private static int[,]? TreeGrid;
         private static Dictionary<string,int> ScenicGrid = new Dictionary<string, int>();
         private static int maxRow = 0;
         private static int maxCol = 0;
@@ -47,7 +47,7 @@ namespace AdventOfCodePuzzles
             {
                 Console.WriteLine($"\t[ERROR] {ex.Message}\n{ex.StackTrace}");
             }
-            return $"Part1:\n\tOuterEdgeTrees = {edgeTrees}\n\tInner Visible Trees:{innerVisibleTrees}\n\tVisible Trees:{innerVisibleTrees + edgeTrees}";
+            return $"Part1:\n\tOuter Edge Trees: {edgeTrees}\n\tInner Visible Trees: {innerVisibleTrees}\n\tVisible Trees: {innerVisibleTrees + edgeTrees}";
         }
 
         public static string Part2()
@@ -66,12 +66,12 @@ namespace AdventOfCodePuzzles
                 Console.WriteLine($"\t[ERROR] {ex.Message}\n{ex.StackTrace}");
             }
 
-            return $"Part2: {ScenicGrid.Max(score => score.Value)}";
+            return $"Part2:\n\tMax Scenic Score: {ScenicGrid.Max(score => score.Value)}";
         }
 
         private static int ScenicScore(GridPoint treePoint){
             //Console.Write($"TreePoint({treePoint.Row},{treePoint.Col})");
-            var total = ScenicScoreLeft(treePoint) 
+            var total = ScenicScoreLeft(treePoint)
                    * ScenicScoreTop(treePoint)
                    * ScenicScoreRight(treePoint)
                    * ScenicScoreBottom(treePoint);
@@ -82,7 +82,7 @@ namespace AdventOfCodePuzzles
             var score = 0;
             for(var row = treePoint.Row - 1; row >= 0; row--){
                 score++;
-                if(TreeGrid[row,treePoint.Col] >= TreeGrid[treePoint.Row, treePoint.Col])
+                if(TreeGrid?[row,treePoint.Col] >= TreeGrid?[treePoint.Row, treePoint.Col])
                     break;
             }
             //Console.Write($" {score}");
@@ -92,7 +92,7 @@ namespace AdventOfCodePuzzles
             var score = 0;
             for(var row = treePoint.Row + 1; row < maxRow; row++){
                 score++;
-                if(TreeGrid[row,treePoint.Col] >= TreeGrid[treePoint.Row, treePoint.Col])
+                if(TreeGrid?[row,treePoint.Col] >= TreeGrid?[treePoint.Row, treePoint.Col])
                     break;
             }
             //Console.Write($" {score}");
@@ -102,7 +102,7 @@ namespace AdventOfCodePuzzles
             var score = 0;
             for(var col = treePoint.Col - 1; col >= 0; col--){
                 score++;
-                if(TreeGrid[treePoint.Row,col] >= TreeGrid[treePoint.Row, treePoint.Col])
+                if(TreeGrid?[treePoint.Row,col] >= TreeGrid?[treePoint.Row, treePoint.Col])
                     break;
             }
             //Console.Write($" {score}");
@@ -112,7 +112,7 @@ namespace AdventOfCodePuzzles
             var score = 0;
             for(var col = treePoint.Col + 1; col < maxCol; col++){
                 score++;
-                if(TreeGrid[treePoint.Row, col] >= TreeGrid[treePoint.Row, treePoint.Col])
+                if(TreeGrid?[treePoint.Row, col] >= TreeGrid?[treePoint.Row, treePoint.Col])
                     break;
             }
             //Console.Write($" {score}");
@@ -127,25 +127,25 @@ namespace AdventOfCodePuzzles
         }
         private static bool VisibleLeft(GridPoint point){
             for(var col = 0;col < point.Col;col++)
-                if(TreeGrid[point.Row,col] >= TreeGrid[point.Row,point.Col])
+                if(TreeGrid?[point.Row,col] >= TreeGrid?[point.Row,point.Col])
                     return false;
             return true;
         }
         private static bool VisibleRight(GridPoint point){
             for(var col = point.Col + 1;col < maxCol;col++)
-                if(TreeGrid[point.Row,col] >= TreeGrid[point.Row,point.Col])
+                if(TreeGrid?[point.Row,col] >= TreeGrid?[point.Row,point.Col])
                     return false;
             return true;
         }
         private static bool VisibleTop(GridPoint point){
             for(var row = 0;row < point.Row;row++)
-                if(TreeGrid[row, point.Col] >= TreeGrid[point.Row,point.Col])
+                if(TreeGrid?[row, point.Col] >= TreeGrid?[point.Row,point.Col])
                     return false;
             return true;
         }
         private static bool VisibleBottom(GridPoint point){
             for(var row = point.Row + 1;row < maxRow;row++)
-                if(TreeGrid[row, point.Col] >= TreeGrid[point.Row,point.Col])
+                if(TreeGrid?[row, point.Col] >= TreeGrid?[point.Row,point.Col])
                     return false;
             return true;
         }

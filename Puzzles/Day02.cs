@@ -9,40 +9,26 @@ namespace AdventOfCodePuzzles
 {
     static public class Day02
     {
-        enum Pieces{
+        public static string Part1()
+        {
+            lines = File.ReadLines("Assets/Day02.txt").ToList();
+            return $"Part1:\n\tSum: {lines.Sum(l => score(l.Split(" ")))}";
+        }
+
+        public static string Part2() => $"Part2:\n\tSum: {lines?.Sum(l => score2(ToWinLoseDraw(TheirPiece(l.Split(" ")[0]),MustWin_Lose_Draw(l.Split(" ")[1])),TheirPiece(l.Split(" ")[0])))}";
+        #region private
+        private static List<string>? lines;
+        private enum Pieces{
             Rock,
             Paper,
             Scissors
         }
 
-        enum Win_Lose{
+        private enum Win_Lose{
             Lose,
             Draw,
             Win
         }
-        public static string Part1()
-        {
-            var lines = File.ReadLines("Assets/Day02.txt").ToList();
-            var sum = 0;
-            foreach(var line in lines){
-                var parts = line.Split(" ");
-                sum += score(MyPiece(parts[1]), TheirPiece(parts[0]));
-            }
-            return $"Score Part 1 {sum}";
-        }
-
-        public static string Part2()
-        {
-            var lines = File.ReadLines("Assets/Day02.txt").ToList();
-            var sum = 0;
-            foreach(var line in lines){
-                var parts = line.Split(" ");
-                var theirPiece = TheirPiece(parts[0]);
-                sum += score(ToWinLoseDraw(theirPiece, MustWin_Lose_Draw(parts[1])), theirPiece);
-            }
-            return $"Score Part 2 {sum}";
-        }
-
         private static Pieces TheirPiece(string strPiece){
             var charNumber = (int)strPiece[0];
             var charOfA = (int)'A';
@@ -79,7 +65,7 @@ namespace AdventOfCodePuzzles
                         return Pieces.Rock;
             }
         }
-        private static int score(Pieces myPiece, Pieces theirPiece){
+        private static int score2(Pieces myPiece, Pieces theirPiece){
             var result = (int)myPiece + 1;
             if(theirPiece == myPiece)
                 result += 3;
@@ -101,5 +87,12 @@ namespace AdventOfCodePuzzles
             //Console.WriteLine($"{theirPiece} vs {myPiece} result: {result}");
             return result;
         }
+
+        private static int score(string[] parts){
+            var myPiece = MyPiece(parts[1]);
+            var theirPiece = TheirPiece(parts[0]);
+            return score2(myPiece,theirPiece);
+        }
+        #endregion //private
     }
 }

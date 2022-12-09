@@ -16,41 +16,30 @@ namespace AdventOfCodePuzzles
             var marker = 0;
             if (lines == null)
                 lines = File.ReadLines(FILENAME).ToList();
-
             foreach (var line in lines)
-            {
-                Console.WriteLine($"{line}");
                 marker = GetMarker(line, 4);
-                Console.WriteLine($"\t{marker}");
-            }
-            return $"Part1: {marker}";
+            return $"Part1:\n\tMarker: {marker}";
         }
 
         public static string Part2()
         {
+            if(lines == null)
+                return $"No Data...";
             var marker = 0;
-            if (lines == null)
-                lines = File.ReadLines(FILENAME).ToList();
-
             foreach (var line in lines)
             {
-                Console.WriteLine($"{line}");
                 marker = GetMarker(line, 4);
-                Console.WriteLine($"\t{marker}");
                 marker += GetMarker(line.Substring(marker + 1), 14);
-                Console.WriteLine($"\t{marker + 1}");
             }
-            return $"Part2: {marker}";
+            return $"Part2:\n\tMarker: {marker}";
         }
 
 
         private static int GetMarker(string line, int length)
         {
             for (var i = 0; i < line.Length - length + 1; i++)
-            {
                 if(CheckUnique(line.Substring(i,length)))
                     return i + length;
-            }
             return 0;
         }
 
@@ -68,7 +57,6 @@ namespace AdventOfCodePuzzles
                         return false;
                 }
             }
-            Console.WriteLine($"\t{str}");
             return true;
         }
     }

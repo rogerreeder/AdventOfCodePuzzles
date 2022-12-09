@@ -9,11 +9,12 @@ namespace AdventOfCodePuzzles
 {
     static public class Day01
     {
+        private static List<string>? lines;
         public static string Part1()
         {
             var elf = 1;
             var largestSum = 0;
-            var lines = File.ReadLines("Assets/Day01.txt").ToList();
+            lines = File.ReadLines("Assets/Day01.txt").ToList();
             var lineNo = 0;
             if (lines != null)
             {
@@ -34,12 +35,11 @@ namespace AdventOfCodePuzzles
                         sum += int.Parse(line);
                 }
             }
-            return $"First Puzzle: largest calories is {largestSum}";
+            return $"Part1:\n\tTop Calories: {largestSum}";
         }
 
         public static string Part2()
         {
-            var lines = File.ReadLines("Assets/Day01.txt").ToList();
             var list = new List<int>();
             var totals = new int[3];
             var sum = 0;
@@ -70,10 +70,7 @@ namespace AdventOfCodePuzzles
                         sum += int.Parse(line);
                 }
             }
-            sum = 0;
-            foreach (var calories in totals)
-                sum += calories;
-            return $"Second Puzzle: Top 3 total is {sum}";
+            return $"Part2:\n\tTop 3 is: {totals.Sum()}";
         }
     }
 }

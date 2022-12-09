@@ -15,34 +15,24 @@ namespace AdventOfCodePuzzles
             var count = 0;
             if(lines == null)
                 lines = File.ReadLines("Assets/Day04.txt").ToList();
-            foreach(var line in lines){
+            foreach(var line in lines)
                  count += Flag(line);
-                 Console.WriteLine($"{line} {count}");
-            }
-            return $"Part1: {count}";
+            return $"Part1:\n\tCount: {count}";
         }
 
         public static string Part2()
         {
             var count = 0;
             if(lines == null)
-                lines = File.ReadLines("Assets/Day04.txt").ToList();
-            foreach(var line in lines){
-                 count += Flag2(line);
-                 Console.WriteLine($"{line} {count}");
-            }
-            return $"Part2: {count}";
+                return $"No Data...";
+            foreach(var line in lines)
+                count += Flag2(line);
+            return $"Part2:\n\tCount: {count}";
         }
 
-        private static int Flag(string line){
-            if(ComparePairs(line.Split(','))) return 1;
-            return 0;
-        }
-        private static int Flag2(string line){
-            var pairs = line.Split(',');
-            if(OverlappingPairs(pairs)) return 1;
-            return 0;
-        }
+        private static int Flag(string line) => ComparePairs(line.Split(',')) ? 1 : 0;
+        private static int Flag2(string line) => OverlappingPairs(line.Split(',')) ? 1 : 0;
+ 
         private static bool ComparePairs(string[] pairs){
             var firstSections = pairs[0].Split('-');
             var secondSections = pairs[1].Split('-');
@@ -69,7 +59,6 @@ namespace AdventOfCodePuzzles
                 int.Parse(firstSections[1]) >= int.Parse(secondSections[0])){
                     return true;
                 }
-            Console.WriteLine($" X");
             return false;
         }
     }

@@ -27,7 +27,7 @@ namespace AdventOfCodePuzzles
                         parseMove(line);
                 }
             }
-            return $"Part1: {Code()}";
+            return $"Part1:\n\tCode: {Code()}";
         }
 
         public static string Part2()
@@ -55,7 +55,7 @@ namespace AdventOfCodePuzzles
                     }
                 }
             }
-            return $"Part2: {Code()}";
+            return $"Part2:\n\tCode: {Code()}";
         }
 
 

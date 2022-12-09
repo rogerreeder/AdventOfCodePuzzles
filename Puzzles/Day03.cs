@@ -9,10 +9,11 @@ namespace AdventOfCodePuzzles
 {
     static public class Day03
     {
+        private static List<string>? lines;
         public static string Part1()
         {
             var priorityList = new List<int>();
-            var lines = File.ReadLines("Assets/Day03.txt").ToList();
+            lines = File.ReadLines("Assets/Day03.txt").ToList();
             foreach(var line in lines){
                 var itemsList = new List<int>();
                 for(var i = 0; i < line.Length;i++)
@@ -20,21 +21,21 @@ namespace AdventOfCodePuzzles
                 var items = itemsList.ToArray();
                 var firstHalf = items.Take(items.Length/2).ToArray();
                 var secondHalf = items.Skip(items.Length/2).ToArray();
-                var priorityItemsInSackList = new List<int>(); 
+                var priorityItemsInSackList = new List<int>();
                 for(var i = 0; i < firstHalf.Length; i++)
                     if(secondHalf.Contains(firstHalf[i]) && !priorityItemsInSackList.ToArray().Contains(items[i])){
                         priorityItemsInSackList.Add(items[i]);
                         priorityList.Add(items[i]);
                     }
             }
-            var priorities = priorityList.ToArray();
-            return $"Sum of {priorities.Length} Priorities is {priorities.Sum()}";
+            return $"Part2:\n\tSum: {priorityList.ToArray().Sum()}";
         }
 
         public static string Part2()
         {
+            if(lines == null)
+                return $"No Data...";
             var priorityList = new List<int>();
-            var lines = File.ReadLines("Assets/Day03.txt").ToList();
             var lineNumber = 0;
             var sack1 = "";
             var sack2 = "";
@@ -58,8 +59,7 @@ namespace AdventOfCodePuzzles
                 }
                 lineNumber++;
             }
-            var badges = badgesList.ToArray();
-            return $"Sum of {badges.Length} Badges is {badges.Sum()}";
+            return $"Part2:\n\tSum: {badgesList.ToArray().Sum()}";
         }
 
         private static int GetBadgePriority(string sack1, string sack2, string sack3){

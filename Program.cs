@@ -1,17 +1,14 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using AdventOfCodePuzzles;
 
-const int NEXTDAY = 8;
-var notExit = true;
+const int NEXTDAY = 10;
 showMenu();
-Console.WriteLine("Tap Key to run, ? for menu or X to exit");
+var notExit = true;
 while (notExit)
 {
-    var selected = Console.ReadKey();
-    Console.WriteLine("");
     try
     {
-        switch (selected.KeyChar)
+        switch (showPrompt().KeyChar)
         {
             case '?':
                 showMenu();
@@ -48,6 +45,14 @@ while (notExit)
                 Console.WriteLine(Day08.Part1());
                 Console.WriteLine(Day08.Part2());
                 break;
+            case '9':
+                Console.WriteLine(Day09.Part1());
+                Console.WriteLine(Day09.Part2());
+                break;
+            case 'a':
+                Console.WriteLine(Day10.Part1());
+                Console.WriteLine(Day10.Part2());
+                break;
             default:
                 notExit = false;
                 break;
@@ -57,18 +62,18 @@ while (notExit)
     {
         Console.WriteLine($"[ERROR] {ex.Message}");
     }
-    finally{
-        Console.WriteLine("Tap Key to run, ? for menu or X to exit");
-    }
 }
-
 
 void showMenu()
 {
-    Console.WriteLine("************ MENU **********");
+    Console.WriteLine("".PadLeft(36,'*') + " M E N U " + "".PadLeft(35,'*'));
     for (var key = 1; key <= NEXTDAY; key++)
-    {
         Console.WriteLine($"{(char)(48 + (key < 10 ? key : key + 7))} - Advent of Code 2022 ({key})");
-    }
+}
 
+ConsoleKeyInfo showPrompt(){
+    Console.Write($"{("".PadLeft(80,'*'))}\n>>Tap Key to run, ? for menu or X to exit:");
+    var key = Console.ReadKey();
+    Console.WriteLine("\n".PadRight(80,'*'));
+    return key;
 }
