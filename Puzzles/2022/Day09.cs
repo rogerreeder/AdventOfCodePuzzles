@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdventOfCodePuzzles
+namespace AdventOfCodePuzzles.Year2022
 {
-    static public class Day10
+    static public class Day09
     {
-        const string FILENAME = "Assets/Day10.demo.txt";
+        const string FILENAME = "Assets/Day09.demo.txt";
         private static List<string>? lines;
         public static string Part1()
         {

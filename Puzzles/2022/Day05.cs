@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdventOfCodePuzzles
+namespace AdventOfCodePuzzles.Year2022
 {
     static public class Day05
     {

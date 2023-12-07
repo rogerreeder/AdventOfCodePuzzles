@@ -7,4 +7,34 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Puzzles\Day06.cs" />
+    <Compile Remove="Puzzles\Day07.cs" />
+    <Compile Remove="Puzzles\Day08.cs" />
+    <Compile Remove="Puzzles\Day09.cs" />
+    <Compile Remove="Puzzles\Day10.cs" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Compile Update="Puzzles\2023\Day01.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\2023\Day01.demo.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\2023\Day01.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\2023\Day01Part2.demo.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\2023\Day01Part2.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

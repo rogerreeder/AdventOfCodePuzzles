@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using AdventOfCodePuzzles;
+using AdventOfCodePuzzles.Year2023;
 
 const int NEXTDAY = 10;
 showMenu();
@@ -17,6 +18,7 @@ while (notExit)
                 Console.WriteLine(Day01.Part1());
                 Console.WriteLine(Day01.Part2());
                 break;
+                /*
             case '2':
                 Console.WriteLine(Day02.Part1());
                 Console.WriteLine(Day02.Part2());
@@ -53,6 +55,7 @@ while (notExit)
                 Console.WriteLine(Day10.Part1());
                 Console.WriteLine(Day10.Part2());
                 break;
+                */
             default:
                 notExit = false;
                 break;
@@ -68,7 +71,7 @@ void showMenu()
 {
     Console.WriteLine("".PadLeft(36,'*') + " M E N U " + "".PadLeft(35,'*'));
     for (var key = 1; key <= NEXTDAY; key++)
-        Console.WriteLine($"{(char)(48 + (key < 10 ? key : key + 7))} - Advent of Code 2022 ({key})");
+        Console.WriteLine($"{(char)(48 + (key < 10 ? key : key + 7))} - Advent of Code 2023 ({key})");
 }
 
 ConsoleKeyInfo showPrompt(){
