@@ -17,22 +17,28 @@
 
 
   <ItemGroup>
+    <Compile Update="Puzzles\2023\Day03.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="Puzzles\2023\Day02.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="Puzzles\2023\Day01.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Assets\2023\Day01.demo.txt">
+    <None Update="Assets\2023\Day01.demo1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\2023\Day01.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\2023\Day01Part2.demo.txt">
+    <None Update="Assets\2023\Day01.demo2.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\2023\Day01Part2.txt">
+    <None Update="Assets\2023\Day02.demo1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

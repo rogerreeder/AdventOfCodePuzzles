@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AdventOfCodePuzzles.Year2023
 {
-    static public class Day01
+    static public class Day03
     {
         public static string Part1()
         {
