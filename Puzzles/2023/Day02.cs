@@ -28,7 +28,10 @@ namespace AdventOfCodePuzzles.Year2023
                     foreach(var handfull in handfulls)
                     {
                         var cubes = handfull.Split(",");
-
+                        foreach(var cube in cubes)
+                        {
+                            //collect ammounts
+                        }
                     }
                 }
 
