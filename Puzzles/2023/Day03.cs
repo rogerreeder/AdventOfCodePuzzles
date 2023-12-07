@@ -13,19 +13,20 @@ namespace AdventOfCodePuzzles.Year2023
     {
         public static string Part1()
         {
-            var filePath = @"F:\logs\20230101.log";
+            var sum = 0L;
+            var filePath = @"F:\logs\20230301.log";
             if (File.Exists(filePath))
                 File.Delete(filePath);
-            var lines = File.ReadLines("Assets/2023/Day01.txt").ToList();
-            var sum = 0;
-            if (lines != null)
+            var lines = File.ReadLines("Assets/2023/Day03.demo.txt").ToList().ToArray();
+
+            foreach(var line in lines)
             {
-                foreach (var line in lines)
+                var strings = UsingHumanizer.ReplaceNonNumericWithPeriod(line).Split('.');
+                for(var stringIndex = 0; stringIndex < strings.Length; stringIndex++)
                 {
-                    var parsed = new string(line.Where(c => char.IsDigit(c)).ToArray());
-                    var numericString = parsed.Substring(0, 1) + parsed.Substring(parsed.Length -1);
-                    File.AppendAllText(filePath, $"{numericString} {line} {parsed}\n");
-                    sum += int.Parse(numericString);
+                    if (!string.IsNullOrEmpty(strings[stringIndex]))
+                        File.AppendAllText(filePath, $"{stringIndex} {strings[stringIndex]}\n");
+
                 }
 
             }
@@ -35,7 +36,7 @@ namespace AdventOfCodePuzzles.Year2023
 
         public static string Part2()
         {
-            var filePath = @"F:\logs\20230102.log";
+            var filePath = @"F:\logs\20230302.log";
             if(File.Exists(filePath))
                 File.Delete(filePath);
             var lines = File.ReadLines("Assets/2023/Day01.txt").ToList();
