@@ -38,10 +38,10 @@ namespace AdventOfCodePuzzles.Helpers
                 parsedLine = parsedLine.Replace(kv.Key, kv.Value);
             return parsedLine;
         }
-        public static string ReplaceNonNumericWithPeriod(string input)
+        public static string ReplaceNonNumericWithAstrick(string input)
         {
             // Use regular expression to replace non-numeric characters with a period
-            string result = Regex.Replace(input, "[^0-9]", ".");
+            string result = Regex.Replace(input, "[^0-9]", "*");
 
             return result;
         }
