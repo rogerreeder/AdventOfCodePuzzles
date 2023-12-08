@@ -15,8 +15,7 @@ namespace AdventOfCodePuzzles.Year2023
 {
     static public class Day04
     {
-        private static MemoryCache memCache = MemoryCache.Default;
-        private static readonly SemaphoreLocker _locker = new SemaphoreLocker();
+        static long[]? cardTotals;
 
         public static string Part1()
         {
@@ -59,7 +58,7 @@ namespace AdventOfCodePuzzles.Year2023
             }
         }
 
-        public static async Task<string> Part2Async()
+        public static string Part2()
         {
 
             var sum = 0L;
@@ -67,29 +66,22 @@ namespace AdventOfCodePuzzles.Year2023
             if (File.Exists(filePath))
                 File.Delete(filePath);
             var cards = File.ReadLines("Assets/2023/Day04.txt").ToArray();
+            cardTotals = new long[cards.Length];
             var lineNumber = 0;
             try
             {
                 var sw = Stopwatch.StartNew();
                 var processes = new List<Task<int>>();
-                File.AppendAllText(filePath, $"[{sw.Elapsed}]\n");
-                for (var cardIndex = 0; cardIndex < cards.Length; cardIndex++)
-                    processes.Add(ProcessCardAsync(cards, cardIndex, 0));
-                await Task.WhenAll(processes);
-                File.AppendAllText(filePath, $"[{sw.Elapsed}] Completed\n");
-                foreach(var kvPair in memCache)
+                File.AppendAllText(filePath, $"[{sw.Elapsed}] START\n");
+                for (var cardIndex = cardTotals.Length - 1; cardIndex >= 0; cardIndex--)
                 {
-                    var newCards = new List<int>();
-                    var originalCardNumber = int.Parse(kvPair.Key.Substring(1));
-                    var newCardNumber = originalCardNumber + (int)kvPair.Value;
-                    File.AppendAllText(filePath, $"{kvPair.Key}:");
-                    for (var i = originalCardNumber + 1; i <= newCardNumber; i++)
-                        File.AppendAllText(filePath, $"Card {i}{(i < newCardNumber ? ", " : "")}");
-                    File.AppendAllText(filePath, "\n");
+                    sum += ProcessCard(cards, cardIndex);
+                    File.AppendAllText(filePath, $"{cardTotals[cardIndex],7} Card {cardIndex + 1,3}\n");
                 }
-                File.AppendAllText(filePath, $"------\n{sum}\n");
+                File.AppendAllText(filePath, $"-------\n{sum,7}\n");
+                File.AppendAllText(filePath, $"[{sw.Elapsed}] DONE\n");
                 return $"Part1:\n\tTotal: {sum}";
-            }
+           }
             catch (Exception ex)
             {
                 File.AppendAllText(filePath, $"\n[{lineNumber,4}] {ex}\n");
@@ -97,55 +89,24 @@ namespace AdventOfCodePuzzles.Year2023
             }
         }
 
-        private static async Task<int> ProcessCardAsync(string[] cards, int cardIndex, int nesting)
+        private static long ProcessCard(string[] cards, int cardIndex)
         {
-            var key = $"C{cardIndex + 1}";
-            var matches = await GetFromCache(memCache, key);
-            if(matches < 0)
-            {
-                var cardPieces = cards[cardIndex].Split(':');
-                var cardNumber = int.Parse(cardPieces[0].Split(' ')[1].Trim());
-                var playerAndWinners = cardPieces[1].Split('|');
-                var winningNumber = playerAndWinners[0].Trim().Split(" ");
-                var playerNumbers = playerAndWinners[1].Trim().Split(" ");
-                matches = 0;
-                foreach (var playerNumber in playerNumbers)
-                    if (winningNumber.Contains(playerNumber))
-                        matches++;
-                await AddToCacheAsync(cache: memCache, $"C{cardIndex + 1}", matches);
-                /*
-                var processes = new List<Task>();
-                for (var i = 1; i <= matches; i++)
-                    if (cardIndex + i < cards.Length - 1)
-                        processes.Add(ProcessCardAsync(cards, cardIndex + i, nesting + 1));
-                await Task.WhenAll(processes);
-                */
-            }
-            return matches;
-        }
-        static async Task AddToCacheAsync(MemoryCache cache, string key, int value)
-        {
-            // Set cache policy (optional)
-            CacheItemPolicy policy = new CacheItemPolicy
-            {
-                AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(10) // Cache item will expire after 10 minutes
-            };
-            var currentValue = await GetFromCache(cache, key);
-            if (currentValue < 0)
-                cache.Add(key, value, policy);
-
-        }
-
-        static async Task<int> GetFromCache(MemoryCache cache, string key)
-        {
-            int? cachedValue = null;
-            await _locker.LockAsync(async () =>
-            {
-                cachedValue = (int) await Task<int>.FromResult(cache.Get(key) ?? -1);
-            });
-            if (cachedValue != null && cachedValue is int)
-                return (int)cachedValue;
-            return -1;
+            var result = 1L;
+            var key = $"Card {cardIndex + 1}";
+            var cardPieces = cards[cardIndex].Split(':');
+            var cardNumber = int.Parse(cardPieces[0].Split(' ')[1].Trim());
+            var playerAndWinners = cardPieces[1].Split('|');
+            var winningNumber = playerAndWinners[0].Trim().Split(" ");
+            var playerNumbers = playerAndWinners[1].Trim().Split(" ");
+            var cardPosition = cardIndex + 1;
+            foreach (var playerNumber in playerNumbers)
+                if (winningNumber.Contains(playerNumber))
+                    if(cardPosition < cards.Length) {
+                        result += cardTotals[cardPosition];
+                        cardPosition++;
+                    }
+            cardTotals[cardIndex] = result;
+            return result;
         }
     }
 }
