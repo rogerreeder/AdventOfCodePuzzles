@@ -1,4 +1,5 @@
 using AdventOfCodePuzzles.Helpers;
+using System.Runtime.Caching;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +15,7 @@ namespace AdventOfCodePuzzles.Year2023
 {
     static public class Day04
     {
+        private static MemoryCache memCache;
         public static string Part1()
         {
             var sum = 0L;
@@ -55,18 +57,30 @@ namespace AdventOfCodePuzzles.Year2023
             }
         }
 
-        public static string Part2()
+        public static async Task<string> Part2Async()
         {
+            memCache = MemoryCache.Default;
+
             var sum = 0L;
             var filePath = @"F:\logs\20230402.log";
             if (File.Exists(filePath))
                 File.Delete(filePath);
-            var cards = File.ReadLines("Assets/2023/Day04.txt").ToArray();
+            var cards = File.ReadLines("Assets/2023/Day04.demo.txt").ToArray();
             var lineNumber = 0;
             try
             {
-                for(var cardIndex = 0; cardIndex < cards.Length; cardIndex++)
-                    sum += ProcessCard(cards, cardIndex, 0, filePath);
+                var sw = Stopwatch.StartNew();
+                var processes = new List<Task>();
+                File.AppendAllText(filePath, $"[{sw.Elapsed}]\n");
+                for (var cardIndex = 0; cardIndex < cards.Length; cardIndex++)
+                    processes.Add(ProcessCardAsync(cards, cardIndex, 0));
+                await Task.WhenAll(processes);
+                File.AppendAllText(filePath, $"[{sw.Elapsed}] Completed\n");
+                foreach(var kvPair in memCache)
+                {
+                    File.AppendAllText(filePath, $"{kvPair.Key}:{kvPair.Value}\n");
+                    sum += (long)kvPair.Value;
+                }
                 File.AppendAllText(filePath, $"------\n{sum}\n");
                 return $"Part1:\n\tTotal: {sum}";
             }
@@ -77,23 +91,56 @@ namespace AdventOfCodePuzzles.Year2023
             }
         }
 
-        private static int ProcessCard(string[] cards, int cardIndex, int nesting, string filePath)
+        private static async Task ProcessCardAsync(string[] cards, int cardIndex, int nesting)
         {
             var cardPieces = cards[cardIndex].Split(':');
             var cardNumber = int.Parse(cardPieces[0].Replace("  ", " ").Replace("  ", " ").Split(' ')[1].Trim());
             var playerAndWinners = cardPieces[1].Split('|');
-            var winningNumber = playerAndWinners[0].Trim().Replace("  ", " ").Split(" ");
-            var playerNumbers = playerAndWinners[1].Trim().Replace("  ", " ").Split(" ");
+            var winningNumber = playerAndWinners[0].Trim().Replace("  ", " ").Replace("  ", " ").Split(" ");
+            var playerNumbers = playerAndWinners[1].Trim().Replace("  ", " ").Replace("  ", " ").Split(" ");
             var matches = 0;
+            AddToCache(cache: memCache, $"C{cardIndex + 1}", 1L);
             foreach (var playerNumber in playerNumbers)
                 if (winningNumber.Contains(playerNumber))
                     matches++;
-            int result = 1;
-            File.AppendAllText(filePath, $"{string.Empty.PadLeft(nesting * 4)}Card {cardIndex + 1}: matches:{matches}\n");
-            for (var i = 1; i <= matches; i++)
-                if(cardIndex + i < cards.Length - 1)
-                    result += ProcessCard(cards, cardIndex + i, nesting + 1, filePath);
-            return result;
+            //Debug.WriteLine($"{string.Empty.PadLeft(nesting * 4, ' ')}Card {cardIndex + 1}: matches:{matches}");
+            if (matches > 0)
+            {
+                var processes = new List<Task>();
+                for (var i = 1; i <= matches; i++)
+                    if (cardIndex + i < cards.Length - 1)
+                        processes.Add(ProcessCardAsync(cards, cardIndex + i, nesting + 1));
+                await Task.WhenAll(processes);
+            }
+            return;
+        }
+        static void AddToCache(MemoryCache cache, string key, long value)
+        {
+            // Set cache policy (optional)
+            CacheItemPolicy policy = new CacheItemPolicy
+            {
+                AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(10) // Cache item will expire after 10 minutes
+            };
+            var currentValue = GetFromCache(cache, key);
+            if(currentValue >= 0)
+                cache.Set(key, currentValue + value, policy);
+            else
+                cache.Add(key, value, policy);
+        }
+
+        static long GetFromCache(MemoryCache cache, string key)
+        {
+            // Retrieve the value from the cache
+            var cachedValue = cache.Get(key);
+
+            // Check if the value is found in the cache
+            if (cachedValue != null && cachedValue is long)
+            {
+                return (long)cachedValue;
+            }
+
+            // Handle the case where the value is not found in the cache
+            return -1;
         }
     }
 }

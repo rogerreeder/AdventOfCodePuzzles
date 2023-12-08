@@ -28,7 +28,7 @@ while (notExit)
             break;
         case '4':
             Console.WriteLine(Day04.Part1());
-            Console.WriteLine(Day04.Part2());
+            Console.WriteLine(await Day04.Part2Async());
             break;
         /*
         case '5':
