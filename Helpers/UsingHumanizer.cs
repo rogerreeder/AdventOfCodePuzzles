@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AdventOfCodePuzzles.Helpers
@@ -36,6 +37,13 @@ namespace AdventOfCodePuzzles.Helpers
             foreach(var kv in  mapping)
                 parsedLine = parsedLine.Replace(kv.Key, kv.Value);
             return parsedLine;
+        }
+        public static string ReplaceNonNumericWithAstrick(string input)
+        {
+            // Use regular expression to replace non-numeric characters with a period
+            string result = Regex.Replace(input, "[^0-9]", "*");
+
+            return result;
         }
     }
 }
