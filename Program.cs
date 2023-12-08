@@ -24,7 +24,7 @@ while (notExit)
                 break;
         case '3':
             Console.WriteLine(Day03.Part1());
-            //Console.WriteLine(Day03.Part2());
+            Console.WriteLine(Day03.Part2());
             break;
             /*
         case '4':
