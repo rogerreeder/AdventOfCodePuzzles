@@ -15,10 +15,6 @@
     <Compile Remove="Puzzles\Day10.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Runtime.Caching" Version="8.0.0" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <Compile Update="Puzzles\2023\Day04.cs">
