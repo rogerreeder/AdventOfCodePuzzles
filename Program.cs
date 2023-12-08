@@ -26,11 +26,11 @@ while (notExit)
             Console.WriteLine(Day03.Part1());
             Console.WriteLine(Day03.Part2());
             break;
-            /*
         case '4':
             Console.WriteLine(Day04.Part1());
             Console.WriteLine(Day04.Part2());
             break;
+        /*
         case '5':
             Console.WriteLine(Day05.Part1());
             Console.WriteLine(Day05.Part2());
