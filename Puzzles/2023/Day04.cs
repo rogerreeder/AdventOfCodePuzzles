@@ -25,13 +25,12 @@ namespace AdventOfCodePuzzles.Year2023
             var lines = File.ReadLines("Assets/2023/Day04.txt").ToList();
             var lineNumber = 0;
             try {
-                foreach (var line in lines)
+                foreach (var card in lines)
                 {
-                    var cardPieces = line.Split(':');
-                    var cardNumber = int.Parse(cardPieces[0].Split(' ')[1].Trim());
-                    var playerAndWinners = cardPieces[1].Split('|');
-                    var winningNumber = playerAndWinners[0].Trim().Split(" ");
-                    var playerNumbers = playerAndWinners[1].Trim().Split(" ");
+                    var parsedCard = ParseCard(card);
+                    var cardNumber = parsedCard.Item1;
+                    var winningNumber = parsedCard.Item2;
+                    var playerNumbers = parsedCard.Item3;
                     var matches = 0;
                     foreach (var playerNumber in playerNumbers)
                     {
@@ -80,7 +79,7 @@ namespace AdventOfCodePuzzles.Year2023
                 File.AppendAllText(filePath, $"-------\n{sum,7}\n");
                 File.AppendAllText(filePath, $"[{sw.Elapsed}] DONE\n");
                 return $"Part1:\n\tTotal: {sum}";
-           }
+            }
             catch (Exception ex)
             {
                 File.AppendAllText(filePath, $"\n[{lineNumber,4}] {ex}\n");
@@ -88,15 +87,23 @@ namespace AdventOfCodePuzzles.Year2023
             }
         }
 
+        private static (int, string[], string[]) ParseCard(string card)
+        {
+            var cardPieces = card.Split(':');
+            var cardNumber = int.Parse(cardPieces[0].Split(' ')[1].Trim());
+            var playerAndWinners = cardPieces[1].Split('|');
+            var winningNumbers = playerAndWinners[0].Trim().Split(" ");
+            var playerNumbers = playerAndWinners[1].Trim().Split(" ");
+            return (cardNumber, winningNumbers, playerNumbers);
+        }
         private static long ProcessCard(string[] cards, int cardIndex)
         {
             var result = 1L;
             var key = $"Card {cardIndex + 1}";
-            var cardPieces = cards[cardIndex].Split(':');
-            var cardNumber = int.Parse(cardPieces[0].Split(' ')[1].Trim());
-            var playerAndWinners = cardPieces[1].Split('|');
-            var winningNumber = playerAndWinners[0].Trim().Split(" ");
-            var playerNumbers = playerAndWinners[1].Trim().Split(" ");
+            var parsedCard = ParseCard( cards[cardIndex]);
+            var cardNumber = parsedCard.Item1;
+            var winningNumber = parsedCard.Item2;
+            var playerNumbers = parsedCard.Item3;
             var cardPosition = cardIndex + 1;
             foreach (var playerNumber in playerNumbers)
                 if (winningNumber.Contains(playerNumber))
