@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Puzzles\2023\DayXX.cs" />
     <Compile Remove="Puzzles\Day06.cs" />
     <Compile Remove="Puzzles\Day07.cs" />
     <Compile Remove="Puzzles\Day08.cs" />
@@ -57,6 +58,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\2023\Day04.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\2023\Day05.demo.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
