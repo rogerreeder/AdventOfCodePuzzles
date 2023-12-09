@@ -67,7 +67,7 @@ namespace AdventOfCodePuzzles.Year2023
             var lineNumber = 0;
             try {
                 var currentSection = almanacSections.SeedLine;
-                foreach( var line in lines )
+                foreach (var line in lines)
                 {
                     if (line.Length > 0)
                     {
@@ -106,7 +106,7 @@ namespace AdventOfCodePuzzles.Year2023
                                     break;
                             }
                         }
-                        if(!newSection)
+                        if (!newSection)
                         {
                             var mappingName = string.Empty;
                             switch (currentSection)
@@ -136,7 +136,7 @@ namespace AdventOfCodePuzzles.Year2023
                                     mappingName = almanacMapNames.HumidToLoc;
                                     break;
                             }
-                            if(!string.IsNullOrWhiteSpace(mappingName))
+                            if (!string.IsNullOrWhiteSpace(mappingName))
                                 AddAlmanacMap(mappingName, line);
                         } else
                         {
@@ -146,9 +146,9 @@ namespace AdventOfCodePuzzles.Year2023
                     {
                         currentSection = almanacSections.NoSection;
                     }
-                        
+
                 }
-                
+
                 var lowestLocation = ProcessSeedInMapping();
                 File.AppendAllText(filePath, $"------\n{lowestLocation}\n");
                 File.AppendAllText(filePath, $"[{sw.Elapsed}] DONE\n");
@@ -258,11 +258,11 @@ namespace AdventOfCodePuzzles.Year2023
                     }
 
                 }
-                var lowestLocation = ProcessSeedInMapping2();
+                var lowestLocation = ProcessSeedInMappingUseParallel();
                 File.AppendAllText(filePath, $"------\n{lowestLocation}\n");
                 File.AppendAllText(filePath, $"[{sw.Elapsed}] DONE\n");
                 return $"Part2:\n\tTotal: {lowestLocation}";
-           }
+            }
             catch (Exception ex)
             {
                 File.AppendAllText(filePath, $"\n[{lineNumber,4}] {ex}\n");
@@ -285,7 +285,7 @@ namespace AdventOfCodePuzzles.Year2023
                 var temp = GetDestination(almanacMapNames.LightToTemp, light);
                 var humidity = GetDestination(almanacMapNames.TempToHumid, temp);
                 var location = GetDestination(almanacMapNames.HumidToLoc, humidity);
-                if(lowestLlocation == 0 || location < lowestLlocation )
+                if (lowestLlocation == 0 || location < lowestLlocation)
                     lowestLlocation = location;
             }
             return lowestLlocation;
@@ -298,7 +298,7 @@ namespace AdventOfCodePuzzles.Year2023
             long endValue = 3000000000L;
             var lowestLocation = 0L;
             var seed = 0L;
-            for(long location = startValue; location <= endValue; location++)
+            for (long location = startValue; location <= endValue; location++)
             {
                 if (location % 1000 == 0)
                     Debug.WriteLine($"location: {location}");
@@ -330,6 +330,58 @@ namespace AdventOfCodePuzzles.Year2023
             */
             return lowestLocation;
         }
+        private static long ProcessSeedInMappingUseParallel()
+        {
+            var possibleLocations = new List<(long, long)>();
+            int nested = 2;
+            var lowestLocation = 0L;
+            foreach (var seedRange in seedsToBePlantedPart2)
+            {
+                var start = seedRange.Start;
+                var end = seedRange.End;
+                var span = end - start;
+                if (span < 0)
+                    Debug.Print($"we have a problem.");
+                var interval =  1024 * 32;
+                for(var i = 0; i <= interval; i++)
+                {
+                    var seed = start + ((span / interval) * i);
+                    var possibleLoc = GetLocationFromSeed(seed);
+                    if (lowestLocation == 0L || possibleLoc < lowestLocation)
+                        lowestLocation = possibleLoc;
+                }
+            }
+            var endValue = lowestLocation;
+            long startValue = 1000000L;
+            //var endValue = GetLocationFromSeed(seedsToBePlantedPart2.First().Start);//just get a legit location to use as an upper. Will never get that high.
+            Parallel.For(
+                startValue,
+                endValue,
+                new ParallelOptions { 
+                      MaxDegreeOfParallelism = Environment.ProcessorCount },
+                (i, loopState) =>
+                {
+                    var lowest = 0L;
+                    if(!loopState.ShouldExitCurrentIteration)
+                    {
+                        long location = i;
+                        long seed = GetSeedFromLocation(location);
+                        var inRange = seedsToBePlantedPart2.Where(s => s.Start < seed && s.End > seed).FirstOrDefault();
+                        if (inRange != null)
+                        {
+                            if(lowest == 0 || location < lowest)
+                            {
+                                lowestLocation = location;
+                                Debug.WriteLine("{0}", lowestLocation.ToString());
+                                loopState.Stop();
+
+                            }
+                        }
+                    }
+                });
+            return lowestLocation;
+        }
+
         private static long GetSeedFromLocation(long location)
         {
             var humidity = GetSource(almanacMapNames.HumidToLoc, location);
