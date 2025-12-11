@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
-namespace AdventOfCodePuzzles
+namespace AdventOfCodePuzzles.Year2022
 {
     class FileInfo {
         public string Directory {get;set;} = string.Empty;
