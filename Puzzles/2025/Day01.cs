@@ -1,5 +1,5 @@
 using AdventOfCodePuzzles.Helpers;
-using System.Runtime.Caching;
+//using System.Runtime.Caching;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,7 +20,7 @@ namespace AdventOfCodePuzzles.Year2025
         public static string Part1()
         {
             var sum = 0L;
-            var filePath = @"F:\logs\202501.log";
+            var filePath = @"D:\logs\202501.log";
             var sw = Stopwatch.StartNew();
             if (File.Exists(filePath))
                 File.Delete(filePath);

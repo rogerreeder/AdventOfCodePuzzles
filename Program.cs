@@ -1,8 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using AdventOfCodePuzzles;
-using AdventOfCodePuzzles.Year2023;
+using AdventOfCodePuzzles.Year2025;
 
-const int NEXTDAY = 10;
+const int NEXTDAY = 1;
 showMenu();
 var notExit = true;
 while (notExit)
@@ -16,8 +16,9 @@ while (notExit)
                 break;
             case '1':
                 Console.WriteLine(Day01.Part1());
-                Console.WriteLine(Day01.Part2());
+                //Console.WriteLine(Day01.Part2());
                 break;
+        /*
             case '2':
                 Console.WriteLine(Day02.Part1());
                 Console.WriteLine(Day02.Part2());
@@ -30,7 +31,6 @@ while (notExit)
             Console.WriteLine(Day04.Part1());
             Console.WriteLine(Day04.Part2());
             break;
-        /*
         case '5':
             Console.WriteLine(Day05.Part1());
             Console.WriteLine(Day05.Part2());
